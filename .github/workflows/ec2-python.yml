@@ -1,0 +1,20 @@
+name: EC2 Python Setup
+
+on:
+  workflow_dispatch:
+
+jobs:
+  setup-python:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Setup Python on EC2
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USERNAME }}
+          key: ${{ secrets.EC2_SSH_KEY }}
+          script: |
+            sudo apt-get update
+            sudo apt-get install -y python3 python3-pip
+            python3 --version
+            pip3 --version
