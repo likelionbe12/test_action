@@ -1,4 +1,4 @@
-name: Manual Workflow with Input
+name: Multiple Jobs Workflow
 
 on:
   workflow_dispatch:
@@ -7,14 +7,17 @@ on:
         description: 'Your name'
         required: true
         default: 'GitHub User'
-      greeting:
-        description: 'Greeting message'
-        required: true
-        default: 'Hello'
 
 jobs:
-  greet:
+  job1:
     runs-on: ubuntu-latest
     steps:
-      - name: Send greeting
-        run: echo "${{ inputs.greeting }}, ${{ inputs.name }}!"
+      - name: First greeting
+        run: echo "Job 1 says hello to ${{ inputs.name }}"
+
+  job2:
+    needs: job1
+    runs-on: ubuntu-latest
+    steps:
+      - name: Second greeting
+        run: echo "Job 2 says hello to ${{ inputs.name }}"
